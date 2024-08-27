@@ -1,0 +1,47 @@
+.add {
+  color: forestgreen;
+  background-color: lightgrey;
+  border: 3px solid forestgreen;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 8px 8px;
+  font-weight: bold;
+  margin: 10px auto;
+}
+
+.update {
+  color: orange;
+  background-color: lightgrey;
+  border: 3px solid orange;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 8px 8px;
+  font-weight: bold;
+  margin: 10px auto;
+}
+
+.delete {
+  color: red;
+  background-color: lightgrey;
+  border: 3px solid red;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 8px 8px;
+  font-weight: bold;
+  margin: 10px auto;
+}
+
+.error {
+  color: red;
+  background-color: lightgrey;
+  border: 3px solid red;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 15px;
+  border-radius: 10px;
+  padding: 8px 8px;
+  font-weight: bold;
+  margin: 10px auto;
+}
