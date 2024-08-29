@@ -6,7 +6,7 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2];
-const url = `mongodb+srv://fullstack:${password}@cluster0.ik96d.mongodb.net/blogList?retryWrites=true&w=majority&appName=Cluster0`;
+const url = `mongodb+srv://fullstack:${password}@cluster0.ik96d.mongodb.net/testBlogList?retryWrites=true&w=majority&appName=Cluster0`;
 mongoose.set("strictQuery", false);
 
 mongoose.connect(url);
@@ -21,10 +21,10 @@ const blogSchema = new mongoose.Schema({
 const Blog = mongoose.model("Blog", blogSchema);
 
 const blog = new Blog({
-  author: "Echo",
-  title: "What it takes to become an elite data expert",
-  url: "http://dataworld.org/data-experts",
-  likes: 400,
+  author: "Austin",
+  title: "Backend testing",
+  url: "http://nodebackend/tests",
+  likes: 200,
 });
 
 blog.save().then(() => {
