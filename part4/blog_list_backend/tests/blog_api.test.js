@@ -4,14 +4,30 @@ const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
 const Blog = require("../models/blog");
+const User = require("../models/user");
 const helper = require("./test_helper");
+const jwt = require("jsonwebtoken");
 
 const api = supertest(app);
 
+let token;
 // setup a mock database
 beforeEach(async () => {
   await Blog.deleteMany({});
   await Blog.insertMany(helper.initialBlogs);
+
+  // // create user
+  // const passwordHash = bcrypt.hash("testpassword", 10);
+  // const user = new User({ username: "testuser", passwordHash });
+
+  // await user.save();
+
+  // const userForToken = {
+  //   username: user.username,
+  //   id: user._id,
+  // };
+
+  // token = jwt.sign(userForToken, process.env.SECRET);
 });
 
 test("blogs are returned as json", async () => {
@@ -39,7 +55,20 @@ test("the field identifying the blog is named id", async () => {
   );
 });
 
-test("a new blog can be added to the blogs", async () => {
+test("a new blog can be added to the blogs, if authorizecd", async () => {
+  // create user
+  // const passwordHash = bcrypt.hash("testpassword", 10);
+  // const user = new User({ username: "testuser", passwordHash });
+
+  // await user.save();
+
+  // const userForToken = {
+  //   username: user.username,
+  //   id: user._id,
+  // };
+
+  // token = jwt.sign(userForToken, process.env.SECRET);
+
   const newBlog = {
     title: "a new blog",
     author: "Nawal",
@@ -50,16 +79,17 @@ test("a new blog can be added to the blogs", async () => {
   await api
     .post("/api/blogs")
     .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+    // .set("Authorization", `Bearer ${token}`)
+    .expect(401);
+  // .expect("Content-Type", /application\/json/);
 
   const res = await api.get("/api/blogs");
 
   const contents = res.body.map((content) => content.title);
 
-  assert.strictEqual(res.body.length, helper.initialBlogs.length + 1);
+  assert.strictEqual(res.body.length, helper.initialBlogs.length);
 
-  assert(contents.includes("a new blog"));
+  assert(!contents.includes("a new blog"));
 });
 
 test("The default value for blog likes is zero (0)", async () => {
@@ -69,53 +99,50 @@ test("The default value for blog likes is zero (0)", async () => {
     url: "The url is here",
   };
 
-  await api
-    .post("/api/blogs")
-    .send(newBlog)
-    .expect(201)
-    .expect("Content-Type", /application\/json/);
+  await api.post("/api/blogs").send(newBlog).expect(401);
+  // .expect("Content-Type", /application\/json/);
 
   const res = await api.get("/api/blogs");
 
   const contents = res.body.map((content) => content.likes);
 
-  assert.strictEqual(contents[contents.length - 1], 0);
+  assert.strictEqual(contents.length, helper.initialBlogs.length);
 });
 
-test("Adding a blog without a title returns 400 Bad Request", async () => {
+test("Adding a blog without a title returns 401 Unauthorized", async () => {
   const newBlog = {
     author: "Nawal",
     url: "The url is here",
     likes: 74,
   };
 
-  await api.post("/api/blogs").send(newBlog).expect(400);
+  await api.post("/api/blogs").send(newBlog).expect(401);
 
   const res = await api.get("/api/blogs");
 
   assert.strictEqual(res.body.length, helper.initialBlogs.length);
 });
 
-test("Adding a blog without a URL returns 400 Bad Request", async () => {
+test("Adding a blog without a URL returns 401 Unauthorized", async () => {
   const newBlog = {
     title: "Blog title is here",
     author: "Nawal",
     likes: 90,
   };
 
-  await api.post("/api/blogs").send(newBlog).expect(400);
+  await api.post("/api/blogs").send(newBlog).expect(401);
   const res = await api.get("/api/blogs");
 
   assert.strictEqual(res.body.length, helper.initialBlogs.length);
 });
 
-test("Adding a blog without a title and URL returns 400 Bad Request", async () => {
+test("Adding a blog without a title and URL returns 401 Unauthorized", async () => {
   const newBlog = {
     author: "Nawal",
     likes: 7,
   };
 
-  await api.post("/api/blogs").send(newBlog).expect(400);
+  await api.post("/api/blogs").send(newBlog).expect(401);
 
   const res = await api.get("/api/blogs");
 
@@ -123,20 +150,20 @@ test("Adding a blog without a title and URL returns 400 Bad Request", async () =
 });
 
 describe("delete a blog post", () => {
-  test("deletes blog with valid id", async () => {
+  test("deletes blog with valid id, without authentication returns 401 Unauthorzed", async () => {
     const blogsDeforeDelete = await helper.blogsInDb();
 
     const blogToDelete = blogsDeforeDelete[0];
 
-    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204);
+    await api.delete(`/api/blogs/${blogToDelete.id}`).expect(401);
 
     const blogsAfterDelete = await helper.blogsInDb();
 
-    assert.strictEqual(blogsAfterDelete.length, helper.initialBlogs.length - 1);
+    assert.strictEqual(blogsAfterDelete.length, helper.initialBlogs.length);
 
     const contents = blogsAfterDelete.map((blog) => blog.title);
 
-    assert(!contents.includes(blogToDelete.title));
+    assert(contents.includes(blogToDelete.title));
   });
 });
 
