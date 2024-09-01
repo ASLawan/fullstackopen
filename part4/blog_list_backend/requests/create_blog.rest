@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImF1c3RpbiIsImlkIjoiNjZkMWVhY2RiYzUyMjE5OTc2N2I3ZmRkIiwiaWF0IjoxNzI1MDgyNDU2LCJleHAiOjE3MjUwODYwNTZ9.yhdtfb41wmqq-r16idczgt-nxCwVyeznfomV5LmTwsY
 
 {
-    "author": "Lawan",
-    "title": "Test blog post after code refactor",
+    "author": "The Game",
+    "title": "DevOps fundamentals",
     "url": "http://api.com/test-blog",
-    "likes": 444
+    "likes": 350
 }
