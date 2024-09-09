@@ -13,20 +13,42 @@ blogRouter.get("/", async (req, res) => {
   res.json(blogs);
 });
 
+// get token from request
+const getTokenFrom = (req) => {
+  const authorization = req.get("authorization");
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+
+  return null;
+};
+
 blogRouter.post("/", userExtractor, async (req, res) => {
-  const body = req.body;
+  const { title, author, url, likes } = req.body;
 
   // console.log("Here is: ", req.body);
 
-  const user = req.user;
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({
+      error: "token invalid",
+    });
+  }
 
-  // console.log(user);
+  // const user = req.user;
+  const user = await User.findById(decodedToken.id);
+
+  if (!user) {
+    return res.status(404).json({
+      error: "user not found!",
+    });
+  }
 
   const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
+    title,
+    author,
+    url,
+    likes,
     user: user._id,
   });
 
