@@ -7,7 +7,10 @@ const Notification = ({ message, messageType }) => {
   } else if (message && messageType === "success") {
     notification = message;
     classname = messageType;
-  } else if (message && (messageType === "error" || messageType === "delete")) {
+  } else if (
+    message &&
+    (messageType === "error" || messageType === "deleted")
+  ) {
     notification = message;
     classname = messageType;
   }

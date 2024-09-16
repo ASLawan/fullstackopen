@@ -12,7 +12,8 @@
   margin: 0 auto;
 }
 
-.error {
+.error,
+.deleted {
   background-color: lightgray;
   border: 2px solid red;
   color: red;
@@ -24,4 +25,12 @@
   border-radius: 5px;
   text-align: center;
   margin: 0 auto;
+}
+
+.blog {
+  padding: 2px 10px;
+  border: 2px solid #000;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  width: 400px;
 }
