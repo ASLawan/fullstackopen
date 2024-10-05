@@ -114,3 +114,34 @@ To complete this part I built the **api** to the **blog post application** that 
 Each blog posts is associated with a given user and only authenticated and authorized users are allowed to create, delete or update blog posts
 
 To ensure that all endpoints work as intended and all security measures work as intended, both unit and integration tests were written and tests run.
+
+## Part 5
+
+Part 5 has been the most difficult since i started the course but I am happy and made it through with it.
+Here I was working with testing blog application to ensure it works as intended. The following tests were implememnted:
+
+- Unit tests
+- Integration tests
+- End-to-end tests
+
+### Unit Tests
+
+These tests have to do with testing a unique aspect of the application to ensure it works as intended. Unit tests often are based on one particular aspect of the application, it could be a feature or a function responsible for a given feature.
+
+### Integration Tests
+
+Integration tests are an upgrade to **unit tests**. Integeration tests as the name suggests, integrate/combine two more features of the application the tests if they can/are working together as intended without any errors.
+
+### End-to-end Tests
+
+Also known as **E2E** tests, these tests are an upgrade to the integration tests. Unlike unit and integration tests. E2E tests simulate the end-user usage of the application. These tests when done right, mimic real life usage of the application as a whole unit and not just aspects or features of it.
+
+To carry these tests, there exists special softwares or libraries that make these possible such as:
+
+- Cypress
+- Playwrite
+- Selenium
+
+In this case, we used **Playwrite** to implement the **E2E** tests for the blog post application.
+
+## Part 6
